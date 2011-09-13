@@ -129,7 +129,7 @@ def day(request, year, month, day):
                 entry.creator = request.user
                 entry.date = date(int(year), int(month), int(day))
                 entry.save()
-            return HttpResponseRedirect(reverse("dbe.cal.views.month", args=(year, month)))
+            return HttpResponseRedirect(reverse("cal:month", args=(year, month)))
 
     else:
         # display formset for existing enties and one extra form

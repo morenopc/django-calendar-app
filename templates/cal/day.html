@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>My Entries</h4>
+{% for entry in other_entries %}
+    <div class="entry">
+    {{ entry.creator }} |
+    {{ entry.short|safe }}<br />
+    {{ entry.body }}<br />
+    </div>
+{% endfor %} <br />
+<hr />
+<form action="{% url cal:day year month day %}" method="POST"> {% csrf_token %}
+  {{ entries.management_form }}
+  {% for entry in entries.forms %}
+    {{ entry.id }}
+    <div class="entry">
+      <div class="del">Delete {{ entry.DELETE }}</div>
+      <div id="inp1">
+        <p>Title: {{ entry.title }}</p>
+        <p>Snippet: {{ entry.snippet }}</p>
+      </div>
+      <p>Remind: {{ entry.remind }}</p>
+      {{ entry.body }}
+    </div>
+  {% endfor %}
+  <input type="submit" value="Save" /> 
+</form>
+{% endblock %}

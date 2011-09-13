@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>Settings</h4>
+<form action="" method="POST"> {% csrf_token %}
+Show other users' entries:
+    <input type="checkbox" name="show_users" {% if show_users %}checked{% endif %} />
+<input type="submit" value="Save" />
+</form>
+{% endblock %}
