@@ -30,7 +30,7 @@ def settings(request):
     _show_users(request)
     if request.method == "POST":
         s["show_users"] = (True if "show_users" in request.POST else False)
-    return render_to_response("cal/settings.html", add_csrf(request, show_users=s["show_users"]))
+    return render_to_response("cal/settings.html", add_csrf(request, show_users=s["show_users"]), context_instance=RequestContext(request))
 
 def reminders(request):
     """Return the list of reminders for today and tomorrow."""
@@ -69,7 +69,8 @@ def main(request, year=None):
         lst.append((y, mlst))
 
     return render_to_response("cal/main.html", dict(years=lst, user=request.user, year=year,
-                                                   reminders=reminders(request)))
+                                                   reminders=reminders(request)),
+                                                   context_instance=RequestContext(request))
 
 @login_required
 def month(request, year, month, change=None):
@@ -108,7 +109,8 @@ def month(request, year, month, change=None):
             week += 1
 
     return render_to_response("cal/month.html", dict(year=year, month=month, user=request.user,
-                        month_days=lst, mname=mnames[month-1], reminders=reminders(request)))
+                        month_days=lst, mname=mnames[month-1], reminders=reminders(request)),
+                        context_instance=RequestContext(request))
 
 @login_required
 def day(request, year, month, day):
@@ -136,7 +138,8 @@ def day(request, year, month, day):
         formset = EntriesFormset(queryset=Entry.objects.filter(date__year=year,
             date__month=month, date__day=day, creator=request.user))
     return render_to_response("cal/day.html", add_csrf(request, entries=formset, year=year,
-            month=month, day=day, other_entries=other_entries, reminders=reminders(request)))
+            month=month, day=day, other_entries=other_entries, reminders=reminders(request)),
+            context_instance=RequestContext(request))
 
 
 def add_csrf(request, **kwargs):
